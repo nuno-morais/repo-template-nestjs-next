@@ -66,9 +66,9 @@ peer-dependency resolution.
   (non-optional) peer, where it was previously satisfied transitively.
   `@testing-library/*`, `eslint-plugin-react-hooks`, `jsdom` bumped to
   latest.
-- **`@types/node` kept on `^22.x`**, not the newest major — it should
-  track the Node runtime actually shipped in `Dockerfile`, not the
-  bleeding edge of what the types package publishes.
+- **`@types/node` bumped to `^24.19.0`**, matching the `Dockerfile`'s
+  `node:24-alpine` — types should track the shipped runtime, not float
+  independently of it.
 - Trivial: `multer` resolution 2.3.0 → 2.4.0, `prettier`, `pg`, `express`,
   `class-validator`, `pino`/`pino-http`/`pino-pretty`, `dotenv`,
   `openapi-typescript` peer warning is cosmetic (doesn't bundle its own
