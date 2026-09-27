@@ -7,14 +7,14 @@ on:
 permissions:
   contents: read
 env:
-  NODE_VERSION: '22'
+  NODE_VERSION: '24'
 jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with: { node-version: '22' }
+        with: { node-version: '24' }
       - run: yarn install --frozen-lockfile
       - run: yarn verify:lint
       - run: yarn verify:api-contract
@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with: { node-version: '22' }
+        with: { node-version: '24' }
       - run: yarn install --frozen-lockfile
       - run: yarn verify:test:api-integration
   e2e:
@@ -66,7 +66,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with: { node-version: '22' }
+        with: { node-version: '24' }
       - run: yarn install --frozen-lockfile
       - run: yarn migration:run
       - run: npx playwright install --with-deps chromium

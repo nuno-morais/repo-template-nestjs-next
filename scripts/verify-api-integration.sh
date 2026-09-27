@@ -15,4 +15,4 @@ export NODE_ENV=test
 export CLERK_SECRET_KEY="${CLERK_SECRET_KEY:-sk_test_placeholder}"
 export CLIENT_ORIGINS="${CLIENT_ORIGINS:-http://localhost:{{ web_port }}}"
 yarn migration:run
-yarn test:api-e2e --runInBand
+yarn test:api-e2e

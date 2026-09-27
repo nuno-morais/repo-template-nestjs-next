@@ -44,11 +44,12 @@ export class ClerkAuthGuard implements CanActivate {
       );
     const origins = this.config.get<string>('CLIENT_ORIGINS') || '*';
     try {
+      // authorizedParties is intentionally NOT passed to verifyToken: Clerk's
+      // own check requires azp to be present when set, but this guard allows
+      // an absent azp (see the OriginMatcher check below) and enforces the
+      // match itself only when the caller's token actually carries one.
       const verification = (await verifyToken(header.slice(7), {
         ...(jwtKey ? { jwtKey } : { secretKey }),
-        ...(origins.includes('*')
-          ? {}
-          : { authorizedParties: origins.split(',') }),
       })) as unknown as Record<string, unknown>;
       const rawClaims = (verification?.data ?? verification) as
         Record<string, unknown> | undefined;

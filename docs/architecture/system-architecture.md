@@ -13,7 +13,7 @@
                                v
 +-------------------------------------------------------------+
 |                   API GATEWAY & BACKEND                      |
-|   NestJS 11 (Express 5, Modular Architecture, Clerk Auth)    |
+|   NestJS 12 (Express 5, Modular Architecture, Clerk Auth)    |
 +------------------------------+--------------------------------+
                                | TypeORM (manual migrations)
                                v
@@ -28,7 +28,7 @@
 ```
 {{ project_name }}/
 ├── apps/
-│   ├── api/                     # NestJS 11 backend
+│   ├── api/                     # NestJS 12 backend
 │   │   └── src/
 │   │       ├── main.ts          # Bootstrap (prefix v1, swagger, pino)
 │   │       ├── app.module.ts    # Root module

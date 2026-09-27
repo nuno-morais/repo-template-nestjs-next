@@ -9,7 +9,7 @@ vi.mock('@clerk/nextjs/server', async (importOriginal) => {
   };
 });
 
-import middleware from './middleware';
+import proxy from './proxy';
 
 const redirect = new Error('Redirect to sign-in');
 const guard = {
@@ -20,7 +20,7 @@ const guard = {
 
 async function visit(pathname: string) {
   await (
-    middleware as unknown as (
+    proxy as unknown as (
       auth: typeof guard,
       req: { nextUrl: { pathname: string } },
     ) => Promise<void>

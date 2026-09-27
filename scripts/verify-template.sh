@@ -51,7 +51,7 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 echo "Generating test project from template..."
-copier copy . "${tmp_dir}/generated" \
+copier copy --vcs-ref HEAD . "${tmp_dir}/generated" \
   --data project_name=template-selfcheck \
   --data project_description="Template self-check project" \
   --defaults

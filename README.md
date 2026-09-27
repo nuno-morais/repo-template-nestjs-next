@@ -8,14 +8,14 @@ Generated from [repo-template-nestjs-next](https://github.com/nuno-morais/repo-t
 
 | Layer | Technology |
 |---|---|
-| Framework | NestJS 11 |
+| Framework | NestJS 12 |
 | HTTP Adapter | Express 5 |
-| ORM | TypeORM 0.3 |
+| ORM | TypeORM 1 |
 | Database | PostgreSQL 16 |
 | Validation | class-validator + class-transformer |
 | Authentication | Clerk (`@clerk/backend`, `@clerk/nextjs`) |
 | Documentation | `@nestjs/swagger` — OpenAPI 3.0 + Swagger UI at `/docs` |
-| Frontend | Next.js 15 (App Router), React 19, Tailwind CSS |
+| Frontend | Next.js 16 (App Router), React 19, Tailwind CSS |
 | Containers | Docker + Docker Compose |
 
 ## Local Development
