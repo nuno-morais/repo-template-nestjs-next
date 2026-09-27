@@ -89,7 +89,7 @@ export interface components {
       /** @example My first widget */
       name: string;
       /** @example Optional description */
-      description: Record<string, never> | null;
+      description: string | null;
       /** @example 2026-09-27T12:00:00.000Z */
       createdAt: string;
       /** @example 2026-09-27T12:00:00.000Z */

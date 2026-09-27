@@ -8,7 +8,7 @@ export function apiPinoHttpOptions(production: boolean) {
           options: { colorize: true, translateTime: 'SYS:standard' },
         },
     autoLogging: true,
-    base: { service: 'sample-project-api' },
+    base: { service: '{{ service_log_name }}' },
     redact: {
       censor: '[Redacted]',
       paths: [

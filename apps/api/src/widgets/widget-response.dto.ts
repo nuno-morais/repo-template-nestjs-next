@@ -8,7 +8,7 @@ class WidgetLinksDto {
 export class WidgetResponseDto {
   @ApiProperty({ example: '550e8400-e29b-41d4-a716-446655440000' }) id: string;
   @ApiProperty({ example: 'My first widget' }) name: string;
-  @ApiProperty({ example: 'Optional description', nullable: true })
+  @ApiProperty({ type: String, example: 'Optional description', nullable: true })
   description: string | null;
   @ApiProperty({ example: '2026-09-27T12:00:00.000Z' }) createdAt: string;
   @ApiProperty({ example: '2026-09-27T12:00:00.000Z' }) updatedAt: string;
