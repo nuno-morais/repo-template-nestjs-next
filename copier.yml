@@ -1,0 +1,58 @@
+_templates_suffix: ""
+_exclude:
+  - "copier.yml"
+  - ".git"
+  - "TEMPLATE.md"
+  - "TEMPLATE_CHANGELOG.md"
+  - "docs/superpowers"
+  - ".superpowers"
+  - ".worktrees"
+  - "scripts/verify-template.sh"
+
+project_name:
+  type: str
+  help: "Project name (kebab-case: package name, Docker container names, database name)"
+  validator: >-
+    {% if not (project_name | regex_search('^[a-z]([a-z0-9]|-[a-z0-9])*$')) %}
+    project_name must be lowercase kebab-case, starting with a letter, without consecutive hyphens (e.g. my-new-project)
+    {% endif %}
+
+project_description:
+  type: str
+  help: "One-sentence project description (used in package.json and README)"
+
+service_log_name:
+  type: str
+  help: "Pino 'service' tag in structured logs"
+  default: "{{ project_name }}-api"
+
+api_port:
+  type: int
+  help: "Host port for the API (Docker + local dev). Pick a free port if you already have another generated project running."
+  default: 3001
+  validator: >-
+    {% if api_port < 1 or api_port > 65535 %}
+    api_port must be between 1 and 65535
+    {% endif %}
+
+web_port:
+  type: int
+  help: "Host port for the Next.js dev server. Pick a free port if you already have another generated project running."
+  default: 3002
+  validator: >-
+    {% if web_port < 1 or web_port > 65535 %}
+    web_port must be between 1 and 65535
+    {% elif web_port == api_port %}
+    web_port must not equal api_port
+    {% endif %}
+
+postgres_port:
+  type: int
+  help: "Host port for Postgres. Pick a free port if you already have another generated project running."
+  default: 5434
+  validator: >-
+    {% if postgres_port < 1 or postgres_port > 65534 %}
+    postgres_port must be between 1 and 65534 to allow test port allocation
+    {% elif postgres_port == api_port or postgres_port == web_port or (postgres_port + 1) == api_port or (postgres_port + 1) == web_port %}
+    postgres_port and its test port (postgres_port + 1) must not collide with api_port or web_port
+    {% endif %}

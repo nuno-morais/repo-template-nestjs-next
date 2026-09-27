@@ -1,2 +1,15 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.local
+.env.*.local
+apps/web/.next/
+apps/web/next-env.d.ts
+test-results/
+playwright-report/
+.auth/
+*.log
+.DS_Store
 .worktrees/
 .superpowers/

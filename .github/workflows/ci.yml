@@ -1,0 +1,73 @@
+name: verify
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  NODE_VERSION: '22'
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with: { node-version: '22' }
+      - run: yarn install --frozen-lockfile
+      - run: yarn verify:lint
+      - run: yarn verify:api-contract
+      - run: yarn verify:type:api
+      - run: yarn verify:type:web
+      - run: yarn verify:test:api-unit
+      - run: yarn verify:test:web-unit
+      - run: yarn verify:build:api
+      - run: yarn verify:build:web
+      - run: yarn verify:audit:production
+  api-integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: {{ project_name | replace("-", "_") }}_ci
+        ports: ['{{ postgres_port }}:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 2s --health-timeout 2s --health-retries 30
+    env:
+      VERIFICATION_DATABASE_URL: postgresql://postgres:postgres@localhost:{{ postgres_port }}/{{ project_name | replace("-", "_") }}_ci
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with: { node-version: '22' }
+      - run: yarn install --frozen-lockfile
+      - run: yarn verify:test:api-integration
+  e2e:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: {{ project_name | replace("-", "_") }}_e2e
+        ports: ['{{ postgres_port }}:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 2s --health-timeout 2s --health-retries 30
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:{{ postgres_port }}/{{ project_name | replace("-", "_") }}_e2e
+      CLERK_PUBLISHABLE_KEY: {% raw %}${{ secrets.CLERK_PUBLISHABLE_KEY }}{% endraw %}
+      CLERK_SECRET_KEY: {% raw %}${{ secrets.CLERK_SECRET_KEY }}{% endraw %}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with: { node-version: '22' }
+      - run: yarn install --frozen-lockfile
+      - run: yarn migration:run
+      - run: npx playwright install --with-deps chromium
+      - run: yarn test:e2e
